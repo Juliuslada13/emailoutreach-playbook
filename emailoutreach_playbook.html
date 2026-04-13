@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blueprint Email Outreach Playbook – Coupa AE Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#F8F7F4;padding:48px 24px;color:#111827}
+.wrap{max-width:960px;margin:0 auto}
+.hdr{margin-bottom:40px}
+.hdr-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#185FA5;margin-bottom:8px}
+.hdr h1{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.hdr p{font-size:14px;color:#6B7280;line-height:1.6;max-width:680px}
+.hdr-note{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:600;color:#92400E}
+.controls{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px;align-items:center}
+.control-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#6B7280;margin-right:4px}
+.pill-group{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid #E5E7EB;background:#fff;color:#374151;transition:all .15s}
+.pill:hover{border-color:#185FA5;color:#185FA5}
+.pill.active{background:#185FA5;color:#fff;border-color:#185FA5}
+.pill.active-seq{background:#111827;color:#fff;border-color:#111827}
+.divider{width:1px;height:32px;background:#E5E7EB;margin:0 4px}
+.seq-block{display:none}
+.seq-block.visible{display:block}
+.seq-hdr{margin-bottom:20px}
+.seq-badge{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.seq-badge-a{background:#DBEAFE;color:#1D4ED8}
+.seq-badge-b{background:#FEF3C7;color:#D97706}
+.seq-title{font-size:18px;font-weight:800;color:#111827;margin-bottom:4px}
+.seq-desc{font-size:13px;color:#6B7280;line-height:1.5}
+.persona-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.persona-chip{display:flex;align-items:center;gap:6px;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:700;border:1.5px solid #E5E7EB;background:#fff}
+.persona-chip.cfo{border-color:#7C3AED;color:#7C3AED;background:#F5F3FF}
+.persona-chip.cpo{border-color:#059669;color:#059669;background:#ECFDF5}
+.persona-chip.cio{border-color:#0EA5E9;color:#0EA5E9;background:#F0F9FF}
+.emails-col{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.email-card{background:#fff;border-radius:12px;border:1px solid #E5E7EB;overflow:hidden}
+.email-card-top{padding:14px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;user-select:none}
+.email-card-top:hover{background:#FAFAFA}
+.email-step{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;color:#fff}
+.step-a{background:linear-gradient(135deg,#185FA5,#0EA5E9)}
+.step-b{background:linear-gradient(135deg,#D97706,#F59E0B)}
+.email-meta{flex:1}
+.email-day{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#9CA3AF;margin-bottom:2px}
+.email-subject-prev{font-size:13px;font-weight:700;color:#111827;line-height:1.3}
+.email-goal{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
+.goal-a{background:#DBEAFE;color:#1D4ED8}
+.goal-b{background:#FEF3C7;color:#D97706}
+.toggle-icon{width:24px;height:24px;border-radius:50%;border:1.5px solid #E5E7EB;display:flex;align-items:center;justify-content:center;font-size:13px;color:#9CA3AF;flex-shrink:0;transition:transform .2s}
+.email-card.open .toggle-icon{transform:rotate(45deg);border-color:#185FA5;color:#185FA5}
+.email-body{display:none;padding:0 20px 20px}
+.email-card.open .email-body{display:block}
+.subject-line{background:#F0F9FF;border:1px solid #BAE6FD;border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.subject-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#0EA5E9;margin-bottom:4px}
+.subject-text{font-size:13px;font-weight:700;color:#0C4A6E}
+.persona-versions{display:flex;flex-direction:column;gap:10px}
+.persona-version{border-radius:10px;overflow:hidden;border:1.5px solid #E5E7EB}
+.pv-header{padding:8px 14px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:6px}
+.pv-cfo{background:#F5F3FF;color:#7C3AED;border-bottom:1.5px solid #DDD6FE}
+.pv-cpo{background:#ECFDF5;color:#059669;border-bottom:1.5px solid #A7F3D0}
+.pv-cio{background:#F0F9FF;color:#0EA5E9;border-bottom:1.5px solid #BAE6FD}
+.pv-body{padding:14px;background:#fff}
+.pv-copy{font-size:12.5px;color:#374151;line-height:1.75;white-space:pre-wrap}
+.cta-block{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:700}
+.cta-a{background:#EFF6FF;color:#185FA5;border-left:3px solid #185FA5}
+.cta-b{background:#FFFBEB;color:#D97706;border-left:3px solid #D97706}
+.cta-block a{color:inherit;text-decoration:none;font-weight:800}
+.cta-block a:hover{text-decoration:underline}
+.sep{height:1px;background:#E5E7EB;margin:28px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-label">Coupa AE Sales Enablement — Internal Use Only</div>
+    <h1>Blueprint Email Outreach Playbook</h1>
+    <p>Written for Coupa Account Executives. Each email sells Coupa as the platform and Blueprint as the reason you can go live in 8 weeks, faster, cleaner, and at lower risk than any alternative.</p>
+    <div class="hdr-note">⚡ Positioning: You are selling Coupa. Blueprint is your delivery advantage that removes every objection to buying it.</div>
+  </div>
+
+  <div class="controls">
+    <span class="control-label">Sequence:</span>
+    <div class="pill-group">
+      <div class="pill active-seq" id="btn-seqA" onclick="setSeq('A')">Sequence A — ROI First</div>
+      <div class="pill" id="btn-seqB" onclick="setSeq('B')">Sequence B — Problem First</div>
+    </div>
+    <div class="divider"></div>
+    <span class="control-label">Persona:</span>
+    <div class="pill-group">
+      <div class="pill active" id="btn-cfo" onclick="setPersona('cfo')">CFO</div>
+      <div class="pill" id="btn-cpo" onclick="setPersona('cpo')">CPO</div>
+      <div class="pill" id="btn-cio" onclick="setPersona('cio')">CIO</div>
+    </div>
+  </div>
+
+  <!-- SEQUENCE A -->
+  <div class="seq-block visible" id="seqA">
+    <div class="seq-hdr">
+      <div class="seq-badge seq-badge-a">Sequence A</div>
+      <div class="seq-title">ROI First — Lead with what Coupa delivers</div>
+      <div class="seq-desc">Open with the financial impact Coupa creates. Use Blueprint to answer the "how fast and how much" question before it gets asked. Close with a call to see the numbers together.</div>
+    </div>
+    <div class="persona-bar">
+      <div class="persona-chip cfo">💼 CFO — Payback, cost certainty, financial control</div>
+      <div class="persona-chip cpo">🎯 CPO — Spend savings, process control, S2P visibility</div>
+      <div class="persona-chip cio">🖥️ CIO — Integration speed, IT risk, resource commitment</div>
+    </div>
+
+    <div class="emails-col">
+
+      <!-- A1 -->
+      <div class="email-card" id="eA1">
+        <div class="email-card-top" onclick="tog('eA1')">
+          <div class="email-step step-a">1</div>
+          <div class="email-meta">
+            <div class="email-day">Day 1 — Opening</div>
+            <div class="email-subject-prev">What Coupa is worth to your business — in numbers</div>
+          </div>
+          <div class="email-goal goal-a">ROI hook + Coupa intro</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">What Coupa is worth to [Company], [First Name]</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvA1-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Most finance leaders are surprised when they calculate the true cost of an uncontrolled procurement process. Not just the team headcount, but the maverick spend leaking outside contracts, the invoice processing overhead, and the late payment exposure that never shows up cleanly on a P&L.
+
+Coupa fixes all of it. And for an organisation at your spend level, the ROI model typically identifies €[Y]K to €[Z]M in recoverable value.
+
+What makes this conversation different is how fast you can get there. Through Blueprint, our standardised delivery model, Coupa goes live in 8 weeks at a fixed price. You know the cost and the go-live date before you commit to anything.
+
+Worth 3 minutes to see what the numbers look like for your spend volume?</div>
+                <div class="cta-block cta-a">→ Run the ROI model: <a href="https://dpnow.ai/#roi-calculator" target="_blank">dpnow.ai/#roi-calculator</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA1-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Most procurement leaders I speak to know exactly where the leakage is: maverick spend, PO coverage gaps, supplier data living in spreadsheets. The harder part is getting a system live quickly enough that the business doesn't lose confidence before it delivers.
+
+That's exactly what Coupa solves. And through Blueprint, our standardised delivery model, you can have it live in 8 weeks at a fixed price.
+
+For an organisation at your spend level, the ROI model typically quantifies €[Y]K to €[Z]M in recoverable savings across spend reduction, FTE efficiency, and process automation.
+
+Worth 3 minutes to run the numbers for your environment?</div>
+                <div class="cta-block cta-a">→ Run the ROI model: <a href="https://dpnow.ai/#roi-calculator" target="_blank">dpnow.ai/#roi-calculator</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA1-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Procurement platform projects have a reputation in IT: long integration timelines, moving go-live dates, and delivery risk that lands on your team long after the business case was signed off.
+
+Coupa is the platform that changes that equation. And through Blueprint, our standardised delivery model, it goes live in 8 weeks with pre-built integration pathways for SAP, Oracle, and Microsoft Dynamics.
+
+The integration scope is confirmed in week 1. Fixed. No mid-project surprises.
+
+Our ROI model also quantifies the cost of delayed implementations, which may be useful context for your stakeholders.
+
+Worth 3 minutes to see the numbers?</div>
+                <div class="cta-block cta-a">→ Run the ROI model: <a href="https://dpnow.ai/#roi-calculator" target="_blank">dpnow.ai/#roi-calculator</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- A2 -->
+      <div class="email-card" id="eA2">
+        <div class="email-card-top" onclick="tog('eA2')">
+          <div class="email-step step-a">2</div>
+          <div class="email-meta">
+            <div class="email-day">Day 4 — Credibility</div>
+            <div class="email-subject-prev">Coupa live in 8 weeks — how Blueprint makes it possible</div>
+          </div>
+          <div class="email-goal goal-a">Differentiate + build confidence</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">How we get Coupa live in 8 weeks (not 14 months)</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvA2-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following up on my last note. I wanted to explain why the 8-week timeline is credible, because it's usually the first thing a finance leader questions.
+
+The speed comes from Blueprint, our standardised Coupa delivery model. Every configuration decision has been made in advance. No open-ended workshops, no scope debates, and no time-and-materials billing. One fixed fee. One confirmed go-live date.
+
+For your organisation, that translates to:
+- A known investment before you sign
+- A predictable go-live date to plan cash flow around
+- Average payback inside 14 months
+- Coupa's full S2P capability from day one
+
+Happy to walk you through how it works on a 20-minute call.</div>
+                <div class="cta-block cta-a">→ Coupa via Blueprint: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA2-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following up. I wanted to be specific about what Coupa delivers for procurement teams through Blueprint, beyond the headline go-live date.
+
+In 8 weeks, your team has a live Coupa environment with:
+- Supplier management: one central record, fully integrated
+- Source to contract: end-to-end, no spreadsheets
+- Procure to pay: requisition to invoice, full visibility
+- Spend analytics: data from day one
+
+No phased rollout. No modules added later. The full S2P scope, live, in 8 weeks at a fixed price.
+
+Worth 20 minutes to walk through whether it fits your environment?</div>
+                <div class="cta-block cta-a">→ See what's included: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA2-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following up. I wanted to be specific about how Blueprint handles the integration piece, since that's typically where IT carries the most delivery risk on a Coupa project.
+
+Blueprint has pre-built integration pathways for SAP, Oracle, and Microsoft Dynamics. The full integration scope is confirmed in weeks 1 to 2, before any commitment is made. If your environment falls outside the model, we say so at that stage.
+
+What this means for your team:
+- No open-ended integration scope
+- No mid-project change requests
+- Internal commitment: 4 to 6 hours per week from your project lead
+
+Worth a 20-minute technical walkthrough to see how it maps to your stack?</div>
+                <div class="cta-block cta-a">→ Technical overview: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- A3 -->
+      <div class="email-card" id="eA3">
+        <div class="email-card-top" onclick="tog('eA3')">
+          <div class="email-step step-a">3</div>
+          <div class="email-meta">
+            <div class="email-day">Day 8 — Close</div>
+            <div class="email-subject-prev">One last note, [First Name]</div>
+          </div>
+          <div class="email-goal goal-a">Call ask</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">One last note, [First Name]</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvA3-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+I'll keep this brief.
+
+If getting Coupa live this year with a known cost, a confirmed go-live date, and a clear payback timeline is relevant to your agenda, it's worth 30 minutes.
+
+If the timing isn't right, the ROI model is here whenever you want to revisit the numbers:
+👉 https://dpnow.ai/#roi-calculator</div>
+                <div class="cta-block cta-a">→ Book a call: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA3-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Last note from me.
+
+If getting Coupa live this year with a credible go-live date and the full S2P scope from day one is on your agenda, it's worth 30 minutes to see whether Blueprint is the right route.
+
+We'll be straight about whether your environment fits the model.
+
+The ROI calculator is here if useful in the meantime:
+👉 https://dpnow.ai/#roi-calculator</div>
+                <div class="cta-block cta-a">→ Book your discovery call: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvA3-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Last note from me.
+
+If reducing delivery risk and protecting your team's bandwidth on the next Coupa project are priorities, Blueprint is worth 30 minutes.
+
+I'll be direct about whether your environment is a fit.
+
+The technical overview is here if useful beforehand:
+👉 https://dpnow.ai/services/blueprint/</div>
+                <div class="cta-block cta-a">→ Book a technical walkthrough: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="sep"></div>
+
+  <!-- SEQUENCE B -->
+  <div class="seq-block" id="seqB">
+    <div class="seq-hdr">
+      <div class="seq-badge seq-badge-b">Sequence B</div>
+      <div class="seq-title">Problem First — Lead with what's broken today</div>
+      <div class="seq-desc">Open by naming the specific pain point the persona is living with. Position Coupa as the solution and Blueprint as the reason it can happen faster than they expect. Close with a direct call ask.</div>
+    </div>
+    <div class="persona-bar">
+      <div class="persona-chip cfo">💼 CFO — Hidden cost leakage, no spend visibility</div>
+      <div class="persona-chip cpo">🎯 CPO — Maverick spend, fragmented tools, failed rollouts</div>
+      <div class="persona-chip cio">🖥️ CIO — Scope creep, integration drag, IT burden</div>
+    </div>
+
+    <div class="emails-col">
+
+      <!-- B1 -->
+      <div class="email-card" id="eB1">
+        <div class="email-card-top" onclick="tog('eB1')">
+          <div class="email-step step-b">1</div>
+          <div class="email-meta">
+            <div class="email-day">Day 1 — Opening</div>
+            <div class="email-subject-prev">The procurement problem nobody puts on the agenda</div>
+          </div>
+          <div class="email-goal goal-b">Name the pain</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">The procurement problem that never makes it onto the agenda</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvB1-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+There is a cost line that rarely appears cleanly on a finance dashboard: the true cost of an uncontrolled procurement process.
+
+Maverick spend flowing outside contracts. Invoice processing backlogs creating late payment exposure. AP headcount firefighting month-end instead of adding value.
+
+For most organisations at your spend level, this is a seven-figure problem sitting in plain sight.
+
+Coupa closes that gap. And through Blueprint, our standardised delivery model, it goes live in 8 weeks at a fixed price. No overrun risk. No open-ended consulting engagement.
+
+Worth 3 minutes to see what it looks like for your numbers?</div>
+                <div class="cta-block cta-b">→ See the ROI: <a href="https://dpnow.ai/#roi-calculator" target="_blank">dpnow.ai/#roi-calculator</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB1-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Most CPOs I speak to can name the problem in 30 seconds: spend they can't see, suppliers they can't control, and a P2P process that depends on people remembering to follow it.
+
+The harder part is getting a live system that changes the behaviour, not one that documents the process and sits unused six months after go-live.
+
+Coupa is the platform that solves it. And through Blueprint, our standardised delivery model, you can have it live in 8 weeks at a fixed price, before the business loses confidence in the project.
+
+Worth a quick conversation to see whether the model fits your environment?</div>
+                <div class="cta-block cta-b">→ See how Blueprint works: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB1-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Procurement platform projects have a pattern most IT leaders recognise: the scope expands, the ERP integration drags, the go-live moves, and your team ends up carrying delivery risk for a project they didn't originate.
+
+Coupa is the platform that changes that. And Blueprint, our standardised delivery model, is how we remove the delivery risk entirely.
+
+Pre-built integration pathways for SAP, Oracle, and Microsoft Dynamics. Fixed scope confirmed in week 1. Go-live in week 8. Your team's time commitment: 4 to 6 hours per week.
+
+Worth 20 minutes to see whether it maps to your stack?</div>
+                <div class="cta-block cta-b">→ Technical overview: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- B2 -->
+      <div class="email-card" id="eB2">
+        <div class="email-card-top" onclick="tog('eB2')">
+          <div class="email-step step-b">2</div>
+          <div class="email-meta">
+            <div class="email-day">Day 4 — Solution</div>
+            <div class="email-subject-prev">Coupa in 8 weeks — what that actually means</div>
+          </div>
+          <div class="email-goal goal-b">Position Coupa + Blueprint</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">What Coupa live in 8 weeks actually looks like</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvB2-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following up on my last note. I wanted to share what makes this a different conversation to a traditional Coupa engagement.
+
+Blueprint is a standardised, fixed-scope delivery model built specifically to get Coupa live fast. One fixed fee. One confirmed go-live date. 8 weeks.
+
+For a finance leader, that means:
+- A known investment before you sign
+- A go-live date you can plan cash flow around
+- The ROI projection available before price is discussed
+- Average payback inside 14 months
+
+Traditional consulting approaches bill by the hour and manage scope as they go. Blueprint removes both of those variables from the equation.
+
+Worth 20 minutes to see what the numbers look like for your organisation?</div>
+                <div class="cta-block cta-b">→ Coupa via Blueprint: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB2-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following on from my last message. Here's specifically what Coupa delivers for procurement teams through Blueprint, and why the 8-week timeline is credible.
+
+In 8 weeks, your team has a live Coupa environment with:
+- Supplier management: one central record, fully integrated
+- Source to contract: end-to-end, no spreadsheets
+- Procure to pay: requisition to invoice, full visibility
+- Spend analytics: data from day one
+
+Everything your team needs to move from fragmented tools to a single source of truth, without the 14-month implementation timeline and the adoption failures that typically come with it.
+
+Worth 30 minutes to walk through the scope?</div>
+                <div class="cta-block cta-b">→ Full scope overview: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB2-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Following up. I wanted to be specific about how Blueprint handles the pieces that typically create the most friction on a Coupa project.
+
+Integration: pre-built pathways for SAP, Oracle, and Dynamics. Confirmed in discovery, not uncovered mid-project.
+
+Scope: fixed before you commit. No change requests. No surprises.
+
+Timeline: 8 weeks, confirmed. If a delay is on our side, we extend at no additional cost.
+
+Your team's role: project lead at 4 to 6 hours per week. Key stakeholders for 2 to 3 focused sessions.
+
+Worth 20 minutes to walk through the technical model?</div>
+                <div class="cta-block cta-b">→ Technical detail: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- B3 -->
+      <div class="email-card" id="eB3">
+        <div class="email-card-top" onclick="tog('eB3')">
+          <div class="email-step step-b">3</div>
+          <div class="email-meta">
+            <div class="email-day">Day 8 — Close</div>
+            <div class="email-subject-prev">Closing the loop, [First Name]</div>
+          </div>
+          <div class="email-goal goal-b">Hard close</div>
+          <div class="toggle-icon">+</div>
+        </div>
+        <div class="email-body">
+          <div class="subject-line">
+            <div class="subject-label">Subject line</div>
+            <div class="subject-text">Closing the loop — Coupa via Blueprint</div>
+          </div>
+          <div class="persona-versions">
+
+            <div class="persona-version" id="pvB3-cfo">
+              <div class="pv-header pv-cfo">💼 CFO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Last note from me.
+
+If getting Coupa live this year with a fixed cost, a confirmed go-live date, and a clear payback timeline is on the agenda, it's worth 30 minutes to explore whether Blueprint is the right route.
+
+The ROI model is here if useful in the meantime:
+👉 https://dpnow.ai/#roi-calculator</div>
+                <div class="cta-block cta-b">→ Book a call: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB3-cpo" style="display:none">
+              <div class="pv-header pv-cpo">🎯 CPO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Last one from me.
+
+If getting Coupa live this year with a credible go-live date and the full S2P scope from day one is a priority, Blueprint is worth 30 minutes of your time.
+
+We'll be straight about whether your environment fits the model.
+
+The full scope overview is here whenever you're ready:
+👉 https://dpnow.ai/services/blueprint/</div>
+                <div class="cta-block cta-b">→ Book your discovery call: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+            <div class="persona-version" id="pvB3-cio" style="display:none">
+              <div class="pv-header pv-cio">🖥️ CIO Version</div>
+              <div class="pv-body">
+                <div class="pv-copy">[First Name],
+
+Last note from me.
+
+If reducing delivery risk and protecting your team's bandwidth on the next Coupa project are priorities this year, Blueprint is worth 30 minutes.
+
+I'll be straight about whether your environment is a fit.
+
+The technical overview is here if useful beforehand:
+👉 https://dpnow.ai/services/blueprint/</div>
+                <div class="cta-block cta-b">→ Book a technical call: <a href="https://dpnow.ai/services/blueprint/" target="_blank">dpnow.ai/services/blueprint/</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+let curSeq='A',curPersona='cfo';
+function setSeq(s){
+  curSeq=s;
+  document.getElementById('seqA').classList.toggle('visible',s==='A');
+  document.getElementById('seqB').classList.toggle('visible',s==='B');
+  document.getElementById('btn-seqA').className='pill'+(s==='A'?' active-seq':'');
+  document.getElementById('btn-seqB').className='pill'+(s==='B'?' active-seq':'');
+  document.querySelectorAll('.email-card').forEach(c=>c.classList.remove('open'));
+}
+function setPersona(p){
+  curPersona=p;
+  ['cfo','cpo','cio'].forEach(x=>{
+    document.getElementById('btn-'+x).className='pill'+(x===p?' active':'');
+  });
+  document.querySelectorAll('.persona-version').forEach(el=>el.style.display='none');
+  ['A','B'].forEach(s=>{
+    [1,2,3].forEach(n=>{
+      var el=document.getElementById('pv'+s+n+'-'+p);
+      if(el) el.style.display='block';
+    });
+  });
+}
+function tog(id){document.getElementById(id).classList.toggle('open')}
+setPersona('cfo');
+</script>
+</body>
+</html>
